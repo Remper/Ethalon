@@ -20,7 +20,18 @@
                 
                 if (data) {
                     $.each(data, function(key, value) {
-                        obj.find("[data-ethalon=\""+key+"\"]").html(value);
+                        if (key.substring(0,1) == "_")
+                            return;
+                        if (typeof value == "function") {
+                            if (key.substring(0,3) == "get")
+                                value = value();
+                            else
+                                return;
+                        }
+
+                        obj.find("[data-text=\""+key+"\"]").html(value);
+                        obj.find("[data-src=\""+key+"\"]").attr("src", value);
+                        obj.find("[data-value=\""+key+"\"]").attr("value", value);
                     });
                 }
                 
